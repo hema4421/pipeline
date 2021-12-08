@@ -13,7 +13,7 @@ pipeline {
                      bat 'mvn test'
                        }
                  }
-                 stage('Deploy to Cloudhub') { 
+                 stage('Deploy') { 
                    environment {
                                  ANYPOINT_CREDENTIALS = credentials('anypointPlatform')
                                }
