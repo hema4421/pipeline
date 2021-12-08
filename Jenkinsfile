@@ -18,8 +18,8 @@ pipeline {
                          ANYPOINT_CREDENTIALS = credentials('anypoint.credentials')
                                    }
                    steps {
-                            bat 'mvn clean package deploy -DmuleDeploy -DmuleVersion=4.3.0 -Dusername=login-12 -Dpassword=Hemala03 -DworkerType=Micro -Dworkers=1 -Dregion=us-west-2'
-                         }
+                    sh 'mvn deploy -P cloudhub -Dmule.version=4.3.0 -Danypoint.username=login-12 -Danypoint.password=Hemala03' 
+                          }
                     }
          }
      }
