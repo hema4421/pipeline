@@ -13,12 +13,12 @@ pipeline {
                      bat 'mvn test'
                        }
                  }
-                 stage('Deploy') { 
-                   environment {
-                                 ANYPOINT_CREDENTIALS = credentials('anypoint.credentials')
-                               }
+                 stage('Deploy CloudHub') { 
+                     environment {
+                         ANYPOINT_CREDENTIALS = credentials('anypoint.credentials')
+                                   }
                    steps {
-                            bat 'mvn package deploy -DmuleDeploy -DmuleVersion=4.3.0 -Dusername=login-12 -Dpassword=Hemala03 -DworkerType=Micro -Dworkers=1 -Dregion=us-west-2'
+                            bat 'mvn clean package deploy -DmuleDeploy -DmuleVersion=4.3.0 -Dusername=login-12 -Dpassword=Hemala03 -DworkerType=Micro -Dworkers=1 -Dregion=us-west-2'
                          }
                     }
          }
