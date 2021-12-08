@@ -1,35 +1,25 @@
 pipeline {
-
-  agent any
-  environment {
-    //adding a comment for the commit test
-    DEPLOY_CREDS = credentials('deploy-anypoint-user')
-    MULE_VERSION = '4.3.0'
-    WORKER = "Micro"
-  }
-  stages {
-    stage('Build') {
-      steps {
-            bat 'mvn -B -U -e -V clean -DskipTests package'
-      }
-    }
-
-    stage('Test') {
-      steps {
-          bat "mvn test"
-      }
-    }
-
-    stage('Deploy') {
-      environment {
-      }
-      steps {
-            bat 'mvn -U -V -e -B -DskipTests deploy -DmuleDeploy -Dmule.version="4.3.0" -Danypoint.username="login-12" -Danypoint.password="Hemala03" -Dcloudhub.environment="Sandbox" -Dcloudhub.worker="1"'
-      }
-    }
-  }
-
-  tools {
-    maven 'M3'
-  }
-}
+     agent any
+         stages {
+             stage('Build') {
+                 steps {
+                     echo 'Application is in Building Phase'
+                     bat 'mvn clean install'
+                     }
+                 }
+             stage('Test') {
+                 steps {
+                     echo 'Application is in Testing Phase'
+                     bat 'mvn test'
+                       }
+                 }
+                 stage('Deploy to Cloudhub') { 
+                   environment {
+                                 ANYPOINT_CREDENTIALS = credentials('platform.credentials')
+                               }
+                   steps {
+                            bat 'mvn package deploy -DmuleDeploy -DmuleVersion=4.3.0 -Dusername=login-12 -Dpassword=Hemala03 -DworkerType=Micro -Dworkers=1 -Dregion=us-west-2'
+                         }
+                    }
+         }
+     }
